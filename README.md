@@ -55,7 +55,7 @@ Install psutil with:
 pip install psutil
 ```
 
-## ⚠️ Important Safety Warnings
+##  Important Safety Warnings
 
 These scripts intentionally consume system resources and should be used carefully:
 
