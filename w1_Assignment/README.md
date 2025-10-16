@@ -55,6 +55,53 @@ Install psutil with:
 pip install psutil
 ```
 
+## Standalone Executables (dist/)
+
+For convenience, pre-built standalone executables are available in the `dist/` directory:
+
+- **`dist/occupyCPU`** - Standalone executable for CPU occupation (8.0 MB)
+- **`dist/occupyRAM`** - Standalone executable for RAM occupation (7.6 MB)
+
+### Running the Executables
+
+These executables **do not require Python to be installed** on your system. They are self-contained and can be run directly:
+
+**For Linux/Mac:**
+```bash
+# Run CPU occupation
+./dist/occupyCPU
+
+# Run RAM occupation
+./dist/occupyRAM
+```
+
+**For Windows:**
+If you need Windows executables (.exe files), you'll need to build them on a Windows system using PyInstaller:
+```bash
+pip install pyinstaller psutil
+pyinstaller --onefile --name occupyCPU.exe occupyCPU.py
+pyinstaller --onefile --name occupyRAM.exe occupyRAM.py
+```
+
+### Building Your Own Executables
+
+If you want to rebuild the executables yourself:
+
+```bash
+# Install PyInstaller and dependencies
+pip install pyinstaller psutil
+
+# Build occupyCPU executable
+pyinstaller --onefile --name occupyCPU occupyCPU.py
+
+# Build occupyRAM executable
+pyinstaller --onefile --name occupyRAM occupyRAM.py
+
+# Executables will be created in the dist/ directory
+```
+
+The executables work exactly the same as running the Python scripts - they prompt for input and respond to `Ctrl+C` to stop.
+
 ##  Important Safety Warnings
 
 These scripts intentionally consume system resources and should be used carefully:
@@ -88,7 +135,7 @@ The RAM script:
 
 ## Usage Examples
 
-**Example 1: Occupy 25% of CPU**
+**Example 1: Occupy 25% of CPU (using Python script)**
 ```bash
 $ python3 occupyCPU.py
 Your System has 8 CPU cores
@@ -98,9 +145,35 @@ Started 2 CPU-occupying processes.
 [Press Ctrl+C to stop]
 ```
 
-**Example 2: Occupy 10% of available RAM**
+**Example 1b: Occupy 25% of CPU (using executable)**
+```bash
+$ ./dist/occupyCPU
+Your System has 8 CPU cores
+Enter the perecentage of CPU to be occupied(100): 25
+occupying 2cpu cores
+Started 2 CPU-occupying processes.
+[Press Ctrl+C to stop]
+```
+
+**Example 2: Occupy 10% of available RAM (using Python script)**
 ```bash
 $ python3 occupyRAM.py
+Total Memory: 16.00
+Used Memory: 8.50
+Free Memory: 7.50
+Enter the percentage of RAM to occupy (0-100): 10
+Please presss "y" to confirm or press other to cancel: y
+Occupying 768.00 MB offree  RAM (10%)
+
+Starting to allocate 768.0 MB of RAM...
+[Progress updates...]
+Successfully allocated 768.0 MB of RAM.
+RAM will remain the occpuied. Press Ctrl+C to exit...
+```
+
+**Example 2b: Occupy 10% of available RAM (using executable)**
+```bash
+$ ./dist/occupyRAM
 Total Memory: 16.00
 Used Memory: 8.50
 Free Memory: 7.50
