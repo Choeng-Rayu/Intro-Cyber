@@ -1,135 +1,85 @@
-# W1 - CPU and RAM Occupation Scripts
+# Intro to Cybersecurity Repository
 
-This directory contains Python scripts designed to demonstrate and test system resource consumption by occupying CPU and RAM resources.
+Welcome to my Cybersecurity course repository for **Year 3, Term 1**. This repository contains all assignments and lab work for the Introduction to Cybersecurity course.
 
-## Files
+## 📁 Repository Structure
 
-### 1. `occupyCPU.py`
-A script that occupies CPU resources based on user-specified percentage.
-
-**What it does:**
-- Displays the number of CPU cores available on your system
-- Prompts user to enter a percentage (1-100) of CPU to occupy
-- Calculates the number of cores to use: `max(1, round((percent / 100) * os.cpu_count()))`
-- Spawns multiple processes, each running an infinite CPU-bound loop
-- Each process continuously performs integer arithmetic operations to keep the CPU busy
-- Runs until manually stopped with `Ctrl+C`
-
-**How to run:**
-```bash
-python3 occupyCPU.py
 ```
-Then enter your desired CPU percentage (e.g., `25` for 25% CPU usage).
-
-### 2. `occupyRAM.py`
-A script that allocates and holds memory to occupy a specified percentage of available RAM.
-
-**What it does:**
-- Uses the `psutil` library to display current memory statistics (total, used, free)
-- Prompts user for percentage of available RAM to occupy (0-100)
-- Calculates target memory in MB based on available memory
-- Asks for confirmation before proceeding
-- Allocates memory in 1 MB chunks (using `bytearray`)
-- Shows progress every 100 MB allocated
-- Keeps the memory occupied until stopped with `Ctrl+C`
-- Gracefully handles memory allocation failures
-
-**How to run:**
-```bash
-python3 occupyRAM.py
-```
-Enter percentage when prompted and confirm with `y`.
-
-## Requirements
-
-**For `occupyCPU.py`:**
-- Python 3.x
-- Standard library only (no external dependencies)
-
-**For `occupyRAM.py`:**
-- Python 3.x
-- `psutil` library
-
-Install psutil with:
-```bash
-pip install psutil
+Intro-Cyber/
+├── w1_Assignment/     # Week 1 - Assignment & Lab
+├── w2-tp2/            # Week 2 - Assignment & Lab (TP2 = Lab 2)
+├── w3-tp3/            # Week 3 - Assignment & Lab (TP3 = Lab 3)
+└── README.md          # This file
 ```
 
-##  Important Safety Warnings
+## 📚 Folder Details
 
-These scripts intentionally consume system resources and should be used carefully:
+### **Week 1: w1_Assignment/**
+Contains Week 1 assignment and lab exercises related to CPU and RAM resource management.
 
-1. **System Responsiveness**: Occupying high percentages of CPU or RAM can make your system slow or unresponsive
-2. **Start Small**: Begin with low percentages (e.g., 10-20%) to observe behavior
-3. **Don't Use 100%**: Requesting 100% of resources can freeze your system
-4. **Use in Safe Environments**: Run these scripts in:
-   - Virtual machines
-   - Test/lab environments
-   - Systems where you can safely recover from unresponsiveness
-5. **Know How to Stop**: Always use `Ctrl+C` to stop the scripts gracefully
-6. **Close Other Applications**: Before running, save your work and close unnecessary applications
+**Files:**
+- `occupyCPU.py` - Python script to simulate CPU occupation
+- `occupyRAM.py` - Python script to simulate RAM occupation
+- `occupyCPU.spec` & `occupyRAM.spec` - PyInstaller specification files (for executable building)
+- `dist/` - Compiled executable files
+- `build/` - Build artifacts
+- `README.md` - Week 1 documentation
 
-## How the Scripts Work
+### **Week 2: w2-tp2/**
+Contains Week 2 assignment and lab (TP2) focused on file system operations and folder management.
 
-### CPU Occupation Strategy
-The CPU scripts use multiprocessing to spawn separate processes (not threads). Each process:
-- Runs an infinite loop performing integer arithmetic
-- Uses modulo operations to keep numbers bounded (prevents overflow)
-- Consumes approximately 100% of one CPU core per process
-- Number of processes = `round(percentage/100 × total_cores)`
+**Structure:**
+- `TP2/` - Main lab folder
+  - `ubuntu/` - Ubuntu/Linux specific implementation
+  - `windows/` - Windows specific implementation
+- `testDelete/` - Test directory for delete operations
+- `README.md` - Week 2 documentation
 
-### RAM Occupation Strategy
-The RAM script:
-- Queries available memory using `psutil.virtual_memory().available`
-- Allocates memory in 1 MB chunks by creating `bytearray` objects
-- Stores references to all chunks in a list to prevent garbage collection
-- Continues holding memory until the script exits
-- Handles `MemoryError` exceptions if allocation fails
+**Key Files:**
+- `deleteFolderUbuntu.py` - Python script for folder deletion on Ubuntu
+- `deleteFolderWindows.py` - Python script for folder deletion on Windows
+- `smart-cleaner.service` - System service file for Ubuntu
+- `smart-cleaner.conf` - Configuration file
 
-## Usage Examples
+### **Week 3: w3-tp3/**
+Contains Week 3 assignment and lab (TP3).
 
-**Example 1: Occupy 25% of CPU**
-```bash
-$ python3 occupyCPU.py
-Your System has 8 CPU cores
-Enter the perecentage of CPU to be occupied(100): 25
-occupying 2cpu cores
-Started 2 CPU-occupying processes.
-[Press Ctrl+C to stop]
-```
+## 🎯 Quick Navigation
 
-**Example 2: Occupy 10% of available RAM**
-```bash
-$ python3 occupyRAM.py
-Total Memory: 16.00
-Used Memory: 8.50
-Free Memory: 7.50
-Enter the percentage of RAM to occupy (0-100): 10
-Please presss "y" to confirm or press other to cancel: y
-Occupying 768.00 MB offree  RAM (10%)
+| Week | Folder | Type | Focus Area |
+|------|--------|------|-----------|
+| 1 | `w1_Assignment/` | Assignment + Lab | Resource Management (CPU/RAM) |
+| 2 | `w2-tp2/` | Assignment + Lab | File System Operations |
+| 3 | `w3-tp3/` | Assignment + Lab | TBD |
 
-Starting to allocate 768.0 MB of RAM...
-[Progress updates...]
-Successfully allocated 768.0 MB of RAM.
-RAM will remain the occpuied. Press Ctrl+C to exit...
-```
+## 📝 File Naming Convention
 
-## Educational Purpose
+- `occupyCPU.py` / `occupyRAM.py` - Resource occupation scripts
+- `deleteFolderUbuntu.py` / `deleteFolderWindows.py` - OS-specific utilities
+- `.spec` files - PyInstaller configuration files
+- `.service` - Linux systemd service files
+- `.conf` - Configuration files
 
-These scripts are designed for:
-- Learning about system resource management
-- Testing system performance under load
-- Understanding memory allocation and CPU consumption
-- Demonstrating resource occupation techniques
-- Cybersecurity and system administration training
+## 🚀 How to Use This Repository
 
-## Notes
+1. **Navigate to the week you need:** Each week has its own folder (`w1_Assignment/`, `w2-tp2/`, `w3-tp3/`)
+2. **Read the README:** Each week folder contains a `README.md` with specific instructions
+3. **Find the code:** Look for `.py` files (Python scripts) or documentation files in the respective week folders
 
-- The CPU occupation is "all or nothing" per core - each spawned process uses 100% of one core
-- To achieve precise percentage control (e.g., exactly 30% of one core), a duty-cycle approach (alternating busy/sleep periods) would be needed
-- RAM allocation is based on *available* memory, not total system memory
-- The scripts handle `KeyboardInterrupt` to cleanly release resources when stopped
+## 📖 Course Information
 
-## License
+- **Student:** Choeng Rayu, G2, IDTB100252
+- **Program:** Year 3, Term 1 (Y3 T1)
+- **Course:** Introduction to Cybersecurity (Intro-Cyber)
+- **Language:** Python, Bash, System Configuration
 
-Educational use only. Use at your own risk.
+## 📌 Notes
+
+- Assignment files and lab files are stored together in each week's folder
+- Lab names use the format `w#-tp#` (e.g., `w2-tp2` = Week 2, TP Lab 2)
+- Some labs include OS-specific implementations (Ubuntu/Linux and Windows)
+- Each week's folder includes a dedicated README with detailed instructions
+
+---
+
+Thank you for visiting! Feel free to explore and review our work. 😊
