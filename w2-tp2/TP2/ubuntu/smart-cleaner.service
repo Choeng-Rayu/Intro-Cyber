@@ -1,0 +1,17 @@
+[Unit]
+Description=Smart Cleaner Service - Background folder cleanup
+After=network.target
+
+[Service]
+Type=simple
+User=choeng-rayu
+WorkingDirectory=/home/choeng-rayu/academic/Year3/Intro-Cyber/w3/TP2/ubuntu
+ExecStart=/usr/bin/python3 /home/choeng-rayu/academic/Year3/Intro-Cyber/w3/TP2/ubuntu/deleteFolderUbuntu.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=smart-cleaner
+
+[Install]
+WantedBy=multi-user.target

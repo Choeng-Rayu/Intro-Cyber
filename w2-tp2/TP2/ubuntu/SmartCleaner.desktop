@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Smart Cleaner
+Comment=Start background file cleanup service
+Exec=/home/choeng-rayu/academic/Year3/Intro-Cyber/w3/TP2/ubuntu/SmartCleaner
+Terminal=true
+Icon=system-file-manager
+Categories=Utility;System;
+Path=/home/choeng-rayu/academic/Year3/Intro-Cyber/w3/TP2/ubuntu/

@@ -1,0 +1,18 @@
+#!/bin/bash
+# Post-installation script for smart-cleaner
+
+set -e
+
+echo "Setting up Smart Cleaner Service..."
+
+# Reload systemd
+systemctl daemon-reload
+
+# Enable the service
+systemctl enable smart-cleaner.service
+
+# Start the service
+systemctl start smart-cleaner.service
+
+echo "Smart Cleaner Service installed and started successfully!"
+echo "View logs with: sudo journalctl -u smart-cleaner -f"

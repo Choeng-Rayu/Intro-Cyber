@@ -1,0 +1,10 @@
+Package: smart-cleaner
+Version: 1.0
+Architecture: all
+Maintainer: Your Name <your.email@example.com>
+Depends: python3
+Installed-Size: 50
+Description: Automatic background file cleanup service
+ Smart Cleaner automatically removes files and folders
+ from your system and moves them to quarantine.
+ Runs as a background service on Ubuntu/Linux.

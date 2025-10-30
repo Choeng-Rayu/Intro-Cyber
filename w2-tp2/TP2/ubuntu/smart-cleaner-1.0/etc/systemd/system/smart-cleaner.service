@@ -1,0 +1,17 @@
+[Unit]
+Description=Smart Cleaner Service - Background folder cleanup
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/bin/python3 /usr/local/bin/smart-cleaner
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=smart-cleaner
+
+[Install]
+WantedBy=multi-user.target

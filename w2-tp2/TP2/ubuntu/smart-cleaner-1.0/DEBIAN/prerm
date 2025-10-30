@@ -1,0 +1,14 @@
+#!/bin/bash
+# Pre-removal script for smart-cleaner
+
+set -e
+
+echo "Stopping Smart Cleaner Service..."
+
+# Stop the service if it's running
+systemctl stop smart-cleaner.service 2>/dev/null || true
+
+# Disable it
+systemctl disable smart-cleaner.service 2>/dev/null || true
+
+echo "Smart Cleaner Service stopped."
