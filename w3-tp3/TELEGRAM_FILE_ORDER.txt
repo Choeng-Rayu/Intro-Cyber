@@ -1,0 +1,207 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║          TELEGRAM DISTRIBUTION - EXACT FILE ORDER TO SEND                 ║
+║                      (Educational Purposes Only)                          ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📱 SENDING VIA TELEGRAM - STEP BY STEP
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 PRIORITY 1: SEND FIRST
+
+FILE: simple_payload.exe
+LOCATION: w3-tp3/dist/simple_payload.exe
+SIZE: 7.2 MB
+PURPOSE: The actual Windows executable (the attack)
+ACTION: This is what gets downloaded and auto-executed
+
+TELEGRAM MESSAGE EXAMPLE:
+"Hey! I built this program, check it out 👍"
+[Attach: simple_payload.exe]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 PRIORITY 2: SEND SECOND
+
+FILE: observe_universal.py
+LOCATION: w3-tp3/observe_universal.py
+SIZE: ~5 KB
+PURPOSE: The monitor that detects and auto-executes
+ACTION: Recipient can run this to see auto-execution
+
+TELEGRAM MESSAGE EXAMPLE:
+"Here's the monitor script to run on Windows.
+When you download the .exe, it will auto-execute.
+[Attach: observe_universal.py]"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 PRIORITY 3: SEND THIRD (OPTIONAL)
+
+FILES TO SEND:
+1. simple_payload.py
+2. README_COMPLETE_SETUP.md
+3. ATTACK_ANALYSIS.md
+
+PURPOSE: Documentation and explanation
+ACTION: Help them understand how it works
+
+TELEGRAM MESSAGE EXAMPLE:
+"Here's the source code and documentation:
+[Attach: simple_payload.py]
+[Attach: README_COMPLETE_SETUP.md]
+[Attach: ATTACK_ANALYSIS.md]"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 COMPLETE FILE CHECKLIST
+
+MUST SEND:
+✓ simple_payload.exe (7.2 MB)
+  └─ This is THE ATTACK - most important file
+
+SHOULD SEND:
+✓ observe_universal.py (5 KB)
+  └─ Monitor/detector script
+  
+✓ README_COMPLETE_SETUP.md (8 KB)
+  └─ Complete overview and setup
+
+OPTIONAL:
+✓ simple_payload.py (600 B)
+  └─ Source code showing what it does
+  
+✓ ATTACK_ANALYSIS.md (5 KB)
+  └─ Detailed attack explanation
+  
+✓ TELEGRAM_SENDING_GUIDE.md (This file)
+  └─ Instructions on sending
+  
+✓ PAYLOAD_DELIVERY_GUIDE.md (10 KB)
+  └─ Technical implementation guide
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 QUICK SUMMARY: WHAT TO SEND
+
+SEND IN THIS ORDER:
+
+#1 → simple_payload.exe (7.2 MB) ⭐⭐⭐ MAIN FILE
+    Message: "Check this out"
+
+#2 → observe_universal.py (5 KB)
+    Message: "Run this on Windows to test"
+
+#3 → README_COMPLETE_SETUP.md (8 KB)
+    Message: "Here's documentation"
+
+#4 → Your assignment report
+    Message: "Here's my analysis"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💬 WHAT THE RECIPIENT SHOULD DO
+
+1. Download simple_payload.exe to Downloads folder
+2. Run observe_universal.py (python observe_universal.py)
+3. See auto-execution happen: "Hello World!" appears
+4. Check log file for evidence
+5. Return results to you
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 FILE LOCATIONS (Copy from here)
+
+Windows Executable (MAIN):
+  Copy from: /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/dist/simple_payload.exe
+
+Monitor Script:
+  Copy from: /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/observe_universal.py
+
+Documentation:
+  Copy from: /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/README_COMPLETE_SETUP.md
+            /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/ATTACK_ANALYSIS.md
+
+Source Code:
+  Copy from: /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/simple_payload.py
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ IMPORTANT DISCLAIMERS
+
+BEFORE SENDING, MAKE SURE:
+
+✓ Recipient has explicit permission
+✓ They understand it's EDUCATIONAL
+✓ They own the test machine
+✓ They know what will happen
+✓ They know it's for a school assignment
+✓ Testing in ISOLATED environment
+
+LEGAL REMINDER:
+Sending malware without authorization is ILLEGAL
+This is EDUCATION ONLY - for understanding threats, not creating real ones
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎓 EXAMPLE TELEGRAM CONVERSATION
+
+YOU:
+"Hi, I'm doing a cybersecurity assignment about malware delivery.
+Can I test an educational demo on your Windows machine?
+It's 100% safe - just prints 'Hello World'."
+
+THEM:
+"Sure, what do I need to do?"
+
+YOU:
+"Just 3 steps:
+1. Download this file: [simple_payload.exe]
+2. Run this monitor: [observe_universal.py]
+3. Send me the results"
+
+THEM:
+[Downloads .exe]
+[Sees 'Hello World!' popup]
+"Wow, it actually auto-executed!"
+
+YOU:
+"Perfect! That's the vulnerability we're studying.
+Here's the documentation explaining how: [README]"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 EXPECTED RESULTS
+
+After recipient follows steps:
+
+✓ Downloads simple_payload.exe
+✓ Monitor detects it automatically
+✓ Console shows: "[ALERT] Executable detected: simple_payload.exe"
+✓ "Hello World!" message appears
+✓ Log file created: download_activity.log
+✓ Proof that auto-execution worked!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 BOTTOM LINE
+
+SEND THESE FILES (in order):
+
+1st: simple_payload.exe ⭐⭐⭐ (THIS IS THE MAIN FILE)
+2nd: observe_universal.py
+3rd: README_COMPLETE_SETUP.md
+4th: Your analysis/report
+
+THAT'S IT! Simple and effective.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Created: October 30, 2025
+Course: Intro to Cybersecurity - W3-TP3
+Purpose: Educational demonstration of auto-execution attacks
+
+Good luck with your assignment! 🎉
+

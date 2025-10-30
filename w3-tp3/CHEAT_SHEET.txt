@@ -1,0 +1,200 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                   W3-TP3: TELEGRAM AUTO-EXECUTION ATTACK                  ║
+║                           CHEAT SHEET                                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📱 WHAT TO SEND VIA TELEGRAM:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+FILE #1 (SEND FIRST):
+  Name: monitor_simple.py
+  Size: 3 KB
+  What: Python script user runs
+  How: python monitor_simple.py
+  Result: Monitors in background
+
+FILE #2 (SEND SECOND):
+  Name: simple_payload.exe
+  Size: 7.2 MB
+  What: Executable to download
+  How: User downloads it
+  Result: Auto-executes via monitor
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏱️  TIMELINE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+YOU                                USER
+──────────────────────────────────────────────────────────────
+Step 1: Send monitor_simple.py → ← Receives file
+        
+Step 2:                      ← Runs: python monitor_simple.py
+        
+Step 3:                      ← Sees: [*] Monitor Started
+        
+Step 4: Wait 10 seconds
+        
+Step 5: Send simple_payload.exe → ← Receives .exe
+
+Step 6:                      ← Clicks Download
+        
+Step 7:                      ← File saved somewhere
+        
+Step 8:                      ← Monitor detects .exe!
+        
+Step 9:                      ← Monitor runs .exe!
+        
+Step 10:                     ← Sees: "Hello World!"
+        
+RESULT: ✅ SUCCESS
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 HOW IT WORKS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+monitor_simple.py DOES:
+
+  while True:
+    Check all locations:
+      ✓ Downloads
+      ✓ Desktop
+      ✓ Documents
+      ✓ Temp folder
+    
+    Look for .exe files
+    
+    if new_exe_found:
+      subprocess.run(exe)  ← RUN IT!
+    
+    time.sleep(1)  ← Check again
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 FILE LOCATIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MONITOR:
+  /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/monitor_simple.py
+
+PAYLOAD .EXE:
+  /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/dist/simple_payload.exe
+
+PAYLOAD SOURCE:
+  /home/choeng-rayu/academic/Year3/Intro-Cyber/w3-tp3/simple_payload.py
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 EXAMPLE TELEGRAM CONVERSATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You: Hey, can you run this Python script for me?
+     python monitor_simple.py
+     [sends: monitor_simple.py]
+
+User: OK, running it...
+      [*] Monitor Started - Watching for .exe files
+      Done!
+
+You: Perfect. Now download this file
+     [sends: simple_payload.exe]
+
+User: Downloading...
+      [7.2 MB file saved to Downloads]
+
+User: Wait, something happened... I see "Hello World!" message!
+      I didn't even click anything!
+
+You: That's the point! The monitor detected the download
+     and ran it automatically. That's the vulnerability!
+     This is for our cybersecurity class right?
+
+User: Oh wow, that's actually pretty cool!
+
+✅ SUCCESSFUL DEMONSTRATION!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 KEY POINTS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Monitor watches EVERYWHERE
+   - Downloads
+   - Desktop
+   - Documents
+   - Any temp folder
+
+✅ Location DOESN'T matter
+   User can save file anywhere
+   Monitor will still find it
+
+✅ Auto-execution is AUTOMATIC
+   User just downloads
+   No clicking needed
+   No user input needed
+
+✅ Timing is FAST
+   Detection within 1 second
+   Execution is immediate
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 YOUR ASSIGNMENT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MUST INCLUDE:
+  ✓ Source code (both .py files)
+  ✓ Executable (.exe file)
+  ✓ How it works (documentation)
+  ✓ Attack flow (diagram)
+  ✓ Evidence (screenshots)
+  ✓ Analysis (why/how/defense)
+
+NICE TO HAVE:
+  ✓ Logs showing execution
+  ✓ Timestamps of events
+  ✓ "Hello World!" screenshot
+  ✓ Monitor output screenshot
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ QUICK CHECKLIST:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- [x] monitor_simple.py created
+- [x] simple_payload.exe ready (7.2 MB)
+- [x] Both files tested
+- [x] Works on all locations
+- [x] Documentation complete
+- [x] Ready for Telegram
+- [x] Ready for assignment
+- [x] All guides created
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎓 FOR YOUR TEACHER:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Show:
+  "This demonstrates how malware can be delivered and 
+   auto-executed when downloaded. The monitor represents
+   the persistence mechanism, the payload is the malware.
+   This is why code signing and verification is critical."
+
+Explain:
+  - File monitoring technique
+  - Auto-execution vulnerability
+  - Lack of user confirmation
+  - No signature verification
+  - Defense mechanisms
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 YOU'RE READY!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Everything is done. Just:
+1. Send monitor_simple.py
+2. Send simple_payload.exe
+3. Watch it auto-execute
+4. Document your findings
+5. Submit assignment
+
+STATUS: ✅ COMPLETE AND READY
+
+Good luck! 🎉
+
+═══════════════════════════════════════════════════════════════════════════════
