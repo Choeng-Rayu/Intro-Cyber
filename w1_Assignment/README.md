@@ -76,28 +76,87 @@ These executables **do not require Python to be installed** on your system. They
 ```
 
 **For Windows:**
-If you need Windows executables (.exe files), you'll need to build them on a Windows system using PyInstaller:
+Windows executables (.exe files) are now available in the `dist/` directory:
+- **`dist/occupyCPU.exe`** - Standalone executable for CPU occupation (9.6 MB)
+- **`dist/occupyRAM.exe`** - Standalone executable for RAM occupation (8.8 MB)
+
+You can run them directly by double-clicking or from the command line:
 ```bash
-pip install pyinstaller psutil
-pyinstaller --onefile --name occupyCPU.exe occupyCPU.py
-pyinstaller --onefile --name occupyRAM.exe occupyRAM.py
+.\dist\occupyCPU.exe
+.\dist\occupyRAM.exe
 ```
 
 ### Building Your Own Executables
 
-If you want to rebuild the executables yourself:
+If you want to rebuild the executables yourself or create them on a different system:
 
+#### Step 1: Install Required Tools
 ```bash
-# Install PyInstaller and dependencies
 pip install pyinstaller psutil
+```
 
-# Build occupyCPU executable
-pyinstaller --onefile --name occupyCPU occupyCPU.py
+#### Step 2: Build occupyCPU.exe
+```bash
+pyinstaller occupyCPU.py --onefile --windowed
+```
 
-# Build occupyRAM executable
-pyinstaller --onefile --name occupyRAM occupyRAM.py
+#### Step 3: Build occupyRAM.exe
+```bash
+pyinstaller occupyRAM.py --onefile --windowed
+```
 
-# Executables will be created in the dist/ directory
+#### Step 4: Locate Your Executables
+The compiled `.exe` files will be created in the `dist/` subdirectory:
+- `dist/occupyCPU.exe`
+- `dist/occupyRAM.exe`
+
+### Building Executables - Detailed Explanation
+
+**PyInstaller Options Explained:**
+- `--onefile`: Creates a single executable file instead of multiple files
+- `--windowed` or `-w`: Prevents a console window from appearing (optional, remove if you want to see the console)
+- The input file name (e.g., `occupyCPU.py`) is the Python script to convert
+
+**Build Output:**
+- A `build/` directory is created with intermediate build files
+- A `dist/` directory contains the final executable(s)
+- `.spec` files are created that define the build configuration
+- You can safely delete `build/` folder after successful compilation
+
+### Troubleshooting .exe Creation
+
+**Issue: PyInstaller not found**
+```bash
+# Solution: Make sure PyInstaller is installed
+pip install --upgrade pyinstaller
+```
+
+**Issue: ModuleNotFoundError for psutil**
+```bash
+# Solution: Install psutil before building
+pip install psutil
+pyinstaller occupyRAM.py --onefile --windowed
+```
+
+**Issue: Antivirus flags the .exe file**
+- This is common with PyInstaller-generated executables
+- The .exe file is safe - it's your own code compiled
+- Add the executable to your antivirus whitelist if needed
+
+**Issue: .exe file is very large**
+- The `--onefile` option bundles everything into one file, making it larger
+- For smaller files, remove the `--onefile` flag (you'll get a folder with multiple files instead)
+
+### Rebuilding After Code Changes
+
+If you modify the Python scripts and want to rebuild:
+```bash
+# Delete old build artifacts (optional but recommended)
+rmdir /s build dist
+
+# Rebuild the executables
+pyinstaller occupyCPU.py --onefile --windowed
+pyinstaller occupyRAM.py --onefile --windowed
 ```
 
 The executables work exactly the same as running the Python scripts - they prompt for input and respond to `Ctrl+C` to stop.
