@@ -1,6 +1,8 @@
 import winreg
+import time
 
 def get_installed_apps():
+    
     apps = set()
     paths = [
         (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"),
@@ -55,3 +57,4 @@ apps = get_installed_apps()
 print(f"Found {len(apps)} user-installed applications:")
 for app in sorted(apps):
     print(f" - {app}")
+    
