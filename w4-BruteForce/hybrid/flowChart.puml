@@ -1,0 +1,177 @@
+@startuml Multi-Threaded Brute Force Password Cracker
+
+title Multi-Threaded Brute Force Password Cracker - Flow Chart
+
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontSize 11
+skinparam defaultFontName Arial
+
+start
+
+:Initialize Configuration;
+note right
+  - Target Password
+  - Character Set (A-Z, a-z, 0-9)
+  - Max Length
+  - Number of Workers
+  - Verbose Mode
+end note
+
+:Display Attack Information;
+
+:Start Timer;
+
+partition "ParallelBruteForceAttack" {
+    
+    :length = 1;
+    
+    while (length <= MaxLength?) is (yes)
+        
+        :Calculate Total Combinations
+        for current length;
+        note right
+            totalCombinations = 
+            len(charset)^length
+        end note
+        
+        :Split Work Among Workers;
+        note right
+            workPerWorker = 
+            totalCombinations / numWorkers
+        end note
+        
+        :Create Channels;
+        note right
+            - resultChan: for results
+            - stopChan: for stopping workers
+        end note
+        
+        fork
+            :Launch Worker #0;
+        fork again
+            :Launch Worker #1;
+        fork again
+            :Launch Worker #2;
+        fork again
+            :...|
+        fork again
+            :Launch Worker #N-1;
+        end fork
+        
+        partition "Each Worker (parallel)" #LightBlue {
+            
+            :Get Work Range
+            (startNum to endNum);
+            
+            :attempts = 0|
+            :num = startNum|
+            
+            repeat
+                
+                if (Stop signal received?) then (yes)
+                    :Exit Worker;
+                    stop
+                endif
+                
+                :Convert number to password;
+                note right
+                    Use base conversion with
+                    character set as base
+                end note
+                
+                :attempts++;
+                
+                if (Verbose AND attempts % 5M == 0?) then (yes)
+                    :Print Progress;
+                endif
+                
+                if (password == targetPassword?) then (yes)
+                    :Send SUCCESS Result;
+                    note right
+                        - Password found
+                        - Worker ID
+                        - Attempts count
+                    end note
+                    
+                    :Signal other workers to stop;
+                    
+                    stop
+                    
+                else (no)
+                    :Continue;
+                endif
+                
+                :num++;
+                
+            repeat while (num < endNum?) is (yes)
+            
+            :Send FAILED Result;
+            note right
+                No password found
+                in this range
+            end note
+            
+            stop
+        }
+        
+        :Wait for all workers
+        to complete;
+        
+        :Collect results from
+        resultChan;
+        
+        if (Password FOUND?) then (yes)
+            :Stop all workers;
+            
+            :Calculate Total Time;
+            
+            if (Verbose?) then (yes)
+                :Display Success Message;
+                note right
+                    - Password found
+                    - Worker ID
+                    - Time taken
+                end note
+            endif
+            
+            :Return Success Result;
+            
+            stop
+            
+        else (no)
+            :Continue to next length;
+        endif
+        
+        :length++;
+        
+    endwhile (no)
+    
+    :All lengths exhausted;
+    
+    :Return FAILED Result;
+}
+
+:Display Final Results;
+
+if (Password Found?) then (yes)
+    :Show Success Statistics;
+    note right
+        - Password
+        - Worker ID
+        - Attempts
+        - Time
+        - Speed (attempts/sec)
+    end note
+else (no)
+    :Show Failure Message;
+endif
+
+:Display Security Insights;
+note right
+    - Multi-threading speedup
+    - Importance of long passwords
+end note
+
+stop
+
+@enduml

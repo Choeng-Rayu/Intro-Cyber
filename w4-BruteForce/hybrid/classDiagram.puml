@@ -1,0 +1,177 @@
+@startuml Class_Diagram
+
+title Hybrid Attack System - Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FEFEFE
+skinparam roundcorner 10
+
+' Main Configuration Class
+class HybridConfig {
+    + TargetPassword : string
+    + Dictionary : []string
+    + CharacterSet : string
+    + MaxLength : int
+    + NumWorkers : int
+    + Verbose : bool
+    --
+    + New(target, dict, charset) : HybridConfig
+}
+
+' Result Class
+class AttackResult {
+    + Password : string
+    + Found : bool
+    + Attempts : int64
+    + TimeTaken : time.Duration
+    + Method : string
+    + WorkerID : int
+    --
+    + IsSuccess() : bool
+    + GetSpeed() : float64
+    + PrintSummary() : void
+}
+
+' Attack Strategy Interface
+interface AttackStrategy {
+    + Execute(config) : AttackResult
+    + GetName() : string
+}
+
+' Dictionary Attack Class
+class DictionaryAttack {
+    - config : HybridConfig
+    - attempts : int64
+    --
+    + Execute(config) : AttackResult
+    + GetName() : string
+    - checkPassword(candidate) : bool
+    - showProgress(current) : void
+}
+
+' Brute Force Attack Class
+class BruteForceAttack {
+    - config : HybridConfig
+    - attempts : int64
+    --
+    + Execute(config) : AttackResult
+    + GetName() : string
+    - tryAllCombinations(length) : (bool, string, int)
+    - generateCombination(indices) : string
+    - incrementIndices(indices) : bool
+}
+
+' Parallel Brute Force Class
+class ParallelBruteForce {
+    - config : HybridConfig
+    - workers : []Worker
+    - resultChan : chan AttackResult
+    - wg : sync.WaitGroup
+    --
+    + Execute(config) : AttackResult
+    + GetName() : string
+    - launchWorkers(length) : void
+    - distributeWork() : []WorkRange
+    - collectResults() : AttackResult
+}
+
+' Worker Class
+class Worker {
+    - workerID : int
+    - startRange : int64
+    - endRange : int64
+    - config : HybridConfig
+    --
+    + Start() : void
+    + Stop() : void
+    - bruteForceWorker() : AttackResult
+    - numberToPassword(num, length) : string
+}
+
+' Work Range Class
+class WorkRange {
+    + Start : int64
+    + End : int64
+    + WorkerID : int
+    --
+    + GetSize() : int64
+    + Split(n) : []WorkRange
+}
+
+' Hybrid Attack Orchestrator
+class HybridAttack {
+    - config : HybridConfig
+    - strategies : []AttackStrategy
+    --
+    + Execute() : AttackResult
+    - runDictionaryPhase() : AttackResult
+    - runBruteForcePhase() : AttackResult
+    + PrintProgress() : void
+}
+
+' Helper Utilities
+class PasswordUtils {
+    {static} + GenerateCombination(charset, indices) : string
+    {static} + NumberToPassword(charset, num, length) : string
+    {static} + CalculateSearchSpace(charset, length) : int64
+    {static} + ValidatePassword(password) : bool
+}
+
+class TimeUtils {
+    {static} + FormatDuration(d) : string
+    {static} + EstimateTimeRemaining(current, total) : time.Duration
+    {static} + GetTimestamp() : time.Time
+}
+
+class Logger {
+    - verbose : bool
+    --
+    + Info(message) : void
+    + Success(message) : void
+    + Error(message) : void
+    + Progress(current, total) : void
+}
+
+' Relationships
+HybridConfig "1" -- "1" HybridAttack : uses >
+HybridAttack "1" -- "1..*" AttackStrategy : contains >
+AttackStrategy <|.. DictionaryAttack : implements
+AttackStrategy <|.. BruteForceAttack : implements
+AttackStrategy <|.. ParallelBruteForce : implements
+
+ParallelBruteForce "1" o-- "4..*" Worker : manages >
+ParallelBruteForce "1" -- "1..*" WorkRange : creates >
+Worker "1" -- "1" WorkRange : processes >
+
+DictionaryAttack ..> AttackResult : creates
+BruteForceAttack ..> AttackResult : creates
+ParallelBruteForce ..> AttackResult : creates
+HybridAttack ..> AttackResult : returns
+
+DictionaryAttack ..> PasswordUtils : uses
+BruteForceAttack ..> PasswordUtils : uses
+Worker ..> PasswordUtils : uses
+
+HybridAttack ..> TimeUtils : uses
+HybridAttack ..> Logger : uses
+
+note right of HybridAttack
+    Main orchestrator that:
+    1. Tries Dictionary Attack first
+    2. Falls back to Parallel Brute Force
+    3. Returns combined results
+end note
+
+note right of ParallelBruteForce
+    Divides search space among
+    multiple workers for parallel
+    execution on multiple CPU cores
+end note
+
+note bottom of AttackStrategy
+    Strategy Pattern:
+    Each attack method implements
+    this interface for flexibility
+end note
+
+@enduml

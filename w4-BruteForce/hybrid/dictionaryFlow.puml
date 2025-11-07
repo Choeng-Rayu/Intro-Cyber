@@ -1,0 +1,78 @@
+@startuml Dictionary_Attack_Flow
+
+title Dictionary Attack - Detailed Flow
+
+skinparam backgroundColor #FEFEFE
+skinparam roundcorner 10
+
+|User|
+start
+:Configure Attack;
+note right
+    HybridConfig:
+    • TargetPassword = "Za8yK"
+    • Dictionary = ["password", 
+      "123456", "admin", ...]
+end note
+
+|Dictionary Attack|
+:Initialize Dictionary Attack;
+:attempts = 0;
+:startTime = now();
+
+if (Verbose mode?) then (yes)
+    :Print "Starting Dictionary Attack";
+endif
+
+:Get first password\nfrom dictionary;
+
+repeat
+    :attempts++;
+    
+    if (Verbose && attempts % 1000 == 0) then (yes)
+        :Print progress\n"Checked N passwords";
+    endif
+    
+    |Comparison|
+    :Compare candidate\nwith target;
+    
+    if (candidate == target?) then (yes)
+        |Dictionary Attack|
+        #palegreen:Match Found! ✓;
+        
+        :Create AttackResult:\n• Password = candidate\n• Found = true\n• Attempts = attempts\n• TimeTaken = now() - startTime\n• Method = "Dictionary Attack";
+        
+        if (Verbose?) then (yes)
+            :Print success message;
+            :Print password;
+            :Print attempts;
+            :Print time;
+        endif
+        
+        |User|
+        :Return result;
+        stop
+        
+    else (no)
+        |Dictionary Attack|
+        :Get next password\nfrom dictionary;
+    endif
+    
+repeat while (More passwords?) is (yes)
+->no;
+
+#lightyellow:Dictionary Exhausted;
+
+:Create AttackResult:\n• Found = false\n• Attempts = attempts\n• TimeTaken = now() - startTime\n• Method = "Dictionary Attack";
+
+if (Verbose?) then (yes)
+    :Print "Not found in dictionary";
+    :Print total attempts;
+endif
+
+|User|
+:Return result\n(not found);
+
+stop
+
+@enduml

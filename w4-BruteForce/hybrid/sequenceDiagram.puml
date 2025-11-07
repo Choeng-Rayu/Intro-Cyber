@@ -1,0 +1,166 @@
+@startuml Sequence_Diagram
+
+title Hybrid Attack - Sequence Diagram
+
+skinparam backgroundColor #FEFEFE
+skinparam roundcorner 10
+
+actor User
+participant "Main" as Main
+participant "HybridAttack" as Hybrid
+participant "DictionaryAttack" as Dict
+participant "ParallelBruteForce" as Parallel
+participant "Worker1" as W1
+participant "Worker2" as W2
+participant "Worker3" as W3
+participant "Worker4" as W4
+database "ResultChannel" as Chan
+
+User -> Main: Start Attack
+activate Main
+
+Main -> Main: Create HybridConfig
+note right
+    • Target: "Za8yK"
+    • Dictionary: [...]
+    • MaxLength: 5
+    • Workers: 4
+end note
+
+Main -> Hybrid: HybridAttack(config)
+activate Hybrid
+
+== PHASE 1: Dictionary Attack ==
+
+Hybrid -> Dict: DictionaryAttack(config)
+activate Dict
+
+Dict -> Dict: Load dictionary
+Dict -> Dict: Loop through passwords
+
+loop For each password in dictionary
+    Dict -> Dict: Compare with target
+    
+    alt Password matches
+        Dict -> Dict: Create success result
+        Dict --> Hybrid: AttackResult{Found=true}
+        deactivate Dict
+        
+        Hybrid --> Main: Return result
+        deactivate Hybrid
+        
+        Main --> User: ✓ Success!\nPassword: Za8yK\nTime: 0.0001s
+        deactivate Main
+        
+        note right
+            FAST PATH:
+            Found in dictionary!
+            No brute force needed.
+        end note
+    end
+end
+
+Dict -> Dict: Dictionary exhausted
+Dict --> Hybrid: AttackResult{Found=false}
+deactivate Dict
+
+note right of Hybrid
+    Dictionary failed.
+    Moving to Phase 2...
+end note
+
+== PHASE 2: Parallel Brute Force ==
+
+Hybrid -> Parallel: ParallelBruteForce(config)
+activate Parallel
+
+Parallel -> Parallel: Calculate search space
+Parallel -> Parallel: Divide into 4 chunks
+
+par Worker 1 (0-25%)
+    Parallel -> W1: Start(range: 0-25%)
+    activate W1
+    
+    loop Generate combinations
+        W1 -> W1: numberToPassword(n)
+        W1 -> W1: Compare with target
+        
+        alt Found match
+            W1 -> Chan: Send result
+            W1 --> Parallel: Done
+            deactivate W1
+        end
+    end
+    
+else Worker 2 (25-50%)
+    Parallel -> W2: Start(range: 25-50%)
+    activate W2
+    
+    loop Generate combinations
+        W2 -> W2: numberToPassword(n)
+        W2 -> W2: Compare with target
+        
+        alt Found match
+            W2 -> Chan: Send result
+            W2 --> Parallel: Done
+            deactivate W2
+        end
+    end
+    
+else Worker 3 (50-75%)
+    Parallel -> W3: Start(range: 50-75%)
+    activate W3
+    
+    loop Generate combinations
+        W3 -> W3: numberToPassword(n)
+        W3 -> W3: Compare with target
+        
+        alt Found match
+            W3 -> Chan: Send result
+            note right
+                Worker 3 finds "Za8yK"
+                at iteration 15,234,567
+            end note
+            W3 --> Parallel: Done
+            deactivate W3
+        end
+    end
+    
+else Worker 4 (75-100%)
+    Parallel -> W4: Start(range: 75-100%)
+    activate W4
+    
+    loop Generate combinations
+        W4 -> W4: numberToPassword(n)
+        W4 -> W4: Compare with target
+        
+        alt Found match
+            W4 -> Chan: Send result
+            W4 --> Parallel: Done
+            deactivate W4
+        end
+    end
+end
+
+Parallel -> Chan: Check for result
+Chan --> Parallel: Result from Worker 3
+
+Parallel -> Parallel: Signal other workers to stop
+Parallel -> Parallel: Aggregate results
+
+Parallel --> Hybrid: AttackResult{Found=true,\nWorkerID=3}
+deactivate Parallel
+
+Hybrid --> Main: Return combined result
+deactivate Hybrid
+
+Main --> User: ✓ Success!\nPassword: Za8yK\nTime: 81s\nWorker: 3
+deactivate Main
+
+note right
+    SLOW PATH:
+    Dictionary failed,
+    but brute force found it!
+end note
+
+@enduml
