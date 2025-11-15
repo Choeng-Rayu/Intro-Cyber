@@ -1,7 +1,9 @@
 import winreg
 from packaging import version
+import time
 
 def get_installed_apps():
+    
     apps = {}
     
     paths = [
