@@ -5,6 +5,9 @@
             "label": "C/C++: gcc build active file",
             "command": "/usr/bin/gcc",
             "args": [
+                "-std=c++11",
+                "-pthread",
+                "Intro-Cyber/w4-BruteForce/bruteForce.cpp",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",

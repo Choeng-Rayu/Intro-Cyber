@@ -1,21 +1,19 @@
 /*
  * ============================================================================
- * MULTI-THREADED BRUTE FORCE PASSWORD CRACKER - OPTIMIZED C VERSION
+ * MULTI-THREADED BRUTE FORCE PASSWORD CRACKER - OPTIMIZED C VERSION (WINDOWS)
  * ============================================================================
- * Compile: gcc -O3 -march=native -pthread -o bruteforce_c c.c -lm
- * Run:     ./bruteforce_c
+ * Compile (Windows): gcc -O3 -march=native -o bruteforce_c c.c
+ * Run:     bruteforce_c.exe
  * ============================================================================
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
 #include <stdint.h>
 #include <time.h>
-#include <unistd.h>
 #include <stdbool.h>
-#include <linux/time.h>
+#include <windows.h>
 
 // ============================================================================
 // DATA STRUCTURES
@@ -49,7 +47,7 @@ typedef struct {
 } WorkerArgs;
 
 // Global result for thread communication
-static pthread_mutex_t result_mutex = PTHREAD_MUTEX_INITIALIZER;
+static CRITICAL_SECTION result_mutex;
 static volatile bool password_found = false;
 static AttackResult global_result = {0};
 
@@ -59,9 +57,10 @@ static AttackResult global_result = {0};
 
 // Get current time in seconds (high precision)
 static inline double get_time() {
-    struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return ts.tv_sec + ts.tv_nsec / 1000000000.0;
+    LARGE_INTEGER frequency, counter;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&counter);
+    return (double)counter.QuadPart / frequency.QuadPart;
 }
 
 // Calculate power function for integers (optimized with lookup for small values)
@@ -190,7 +189,7 @@ void* brute_force_worker(void *args) {
     for (int64_t num = wargs->start_num; num < end_num; num++) {
         // Only check stop flag periodically (reduces cache coherency traffic)
         if (num >= next_check) {
-            if (__atomic_load_n(stop_flag, __ATOMIC_ACQUIRE)) {
+            if (*stop_flag) {
                 break;
             }
             next_check += check_interval;
@@ -208,15 +207,15 @@ void* brute_force_worker(void *args) {
         
         // Optimized comparison: early exit on first character mismatch
         // This is the hottest path - optimize aggressively
-        if (__builtin_expect(password[0] == first_char, 0)) {
+        if (password[0] == first_char) {
             // Use optimized password comparison
-            if (__builtin_expect(password_matches(password, target, target_len), 0)) {
+            if (password_matches(password, target, target_len)) {
                 
                 // Found the password!
-                pthread_mutex_lock(&result_mutex);
+                EnterCriticalSection(&result_mutex);
                 if (!password_found) {
                     password_found = true;
-                    __atomic_store_n(stop_flag, true, __ATOMIC_RELEASE);
+                    *stop_flag = true;
                     
                     strcpy(wargs->result->password, password);
                     wargs->result->found = true;
@@ -226,7 +225,7 @@ void* brute_force_worker(void *args) {
                     // Copy to global result
                     global_result = *wargs->result;
                 }
-                pthread_mutex_unlock(&result_mutex);
+                LeaveCriticalSection(&result_mutex);
                 break;
             }
         }
@@ -259,7 +258,7 @@ AttackResult parallel_brute_force_attack(Config *config) {
         int64_t total_combinations = int_pow(config->charset_len, length);
         
         // Allocate worker data
-        pthread_t *threads = malloc(config->num_workers * sizeof(pthread_t));
+        HANDLE *threads = malloc(config->num_workers * sizeof(HANDLE));
         WorkerArgs *worker_args = malloc(config->num_workers * sizeof(WorkerArgs));
         AttackResult *results = calloc(config->num_workers, sizeof(AttackResult));
         volatile bool stop_flag = false;
@@ -283,12 +282,14 @@ AttackResult parallel_brute_force_attack(Config *config) {
             worker_args[i].result = &results[i];
             worker_args[i].stop_flag = &stop_flag;
             
-            pthread_create(&threads[i], NULL, brute_force_worker, &worker_args[i]);
+            threads[i] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)brute_force_worker, 
+                                     &worker_args[i], 0, NULL);
         }
         
         // Wait for all threads to complete
+        WaitForMultipleObjects(config->num_workers, threads, TRUE, INFINITE);
         for (int i = 0; i < config->num_workers; i++) {
-            pthread_join(threads[i], NULL);
+            CloseHandle(threads[i]);
         }
         
         // Check if password was found
@@ -323,6 +324,9 @@ AttackResult parallel_brute_force_attack(Config *config) {
 // ============================================================================
 
 int main(int argc, char *argv[]) {
+    // Initialize critical section
+    InitializeCriticalSection(&result_mutex);
+    
     // Configuration
     const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const char *target_password = "Za8yK";
@@ -337,7 +341,7 @@ int main(int argc, char *argv[]) {
     }
     
     // Print header
-    printf("🚀 MULTI-THREADED BRUTE FORCE ATTACK (C VERSION)\n");
+    printf("MULTI-THREADED BRUTE FORCE ATTACK (C VERSION)\n");
     printf("==================================================\n");
     printf("Target:          %s\n", target_password);
     printf("Workers:         %d parallel threads\n", num_workers);
@@ -363,7 +367,7 @@ int main(int argc, char *argv[]) {
     printf("==================================================\n");
     
     if (result.found) {
-        printf("✓ SUCCESS!\n");
+        printf("SUCCESS!\n");
         printf("Password Found:  %s\n", result.password);
         printf("Worker ID:       #%d\n", result.worker_id);
         printf("Attempts:        %ld\n", result.attempts);
@@ -371,14 +375,17 @@ int main(int argc, char *argv[]) {
         printf("Speed:           %.0f attempts/second\n", 
                result.attempts / result.time_taken);
     } else {
-        printf("✗ Password not found\n");
+        printf("Password not found\n");
         printf("Time Taken:      %.3f seconds\n", result.time_taken);
     }
     
     printf("==================================================\n\n");
-    printf("💡 Multi-threading speedup: ~%dx faster than single thread\n", num_workers / 2);
-    printf("💡 More CPU cores = faster password cracking\n");
-    printf("🔐 5-character passwords take minutes to crack - Use 12+ characters!\n");
+    printf("Multi-threading speedup: ~%dx faster than single thread\n", num_workers / 2);
+    printf("More CPU cores = faster password cracking\n");
+    printf("5-character passwords take minutes to crack - Use 12+ characters!\n");
+    
+    // Cleanup
+    DeleteCriticalSection(&result_mutex);
     
     return 0;
 }
