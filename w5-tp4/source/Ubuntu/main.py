@@ -245,8 +245,17 @@ class DataReceiver:
 
 
 def show_menu():
+    # Get current IP address
+    try:
+        result = subprocess.run(['hostname', '-I'], capture_output=True, text=True, timeout=2)
+        current_ip = result.stdout.strip().split()[0]
+    except:
+        current_ip = "unknown"
+    
     print("\n" + "="*50)
     print("  VULNERABILITY SCANNER & DATA RECEIVER")
+    print("="*50)
+    print(f"  Your IP: {current_ip}")
     print("="*50)
     print("1. Scan this system")
     print("2. Scan and save to file")
@@ -324,7 +333,7 @@ def main():
                 print(f"[-] Failed to send data")
         
         elif choice == '4':
-            host = input("Enter listen address (default 127.0.0.1): ").strip() or '127.0.0.1'
+            host = input("Enter listen address (default 0.0.0.0 for all): ").strip() or '0.0.0.0'
             port_input = input("Enter listen port (default 5555): ").strip() or '5555'
             
             try:
