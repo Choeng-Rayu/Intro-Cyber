@@ -1,0 +1,103 @@
+{
+  "audit_timestamp": "2025-11-21T08:24:03.017045",
+  "audit_type": "browser_security_audit",
+  "system_info": {
+    "home_directory": "/home/choeng-rayu",
+    "audit_date": "2025-11-21 08:24:09"
+  },
+  "browser_versions": {
+    "Google Chrome": {
+      "version": "Google Chrome 142.0.7444.175",
+      "installed": true,
+      "status": "active"
+    },
+    "Chromium": {
+      "version": "N/A",
+      "installed": false,
+      "status": "not_found"
+    },
+    "Firefox": {
+      "version": "Mozilla Firefox 145.0.1",
+      "installed": true,
+      "status": "active"
+    },
+    "Brave": {
+      "version": "Brave Browser 142.1.85.102 beta",
+      "installed": true,
+      "status": "active"
+    }
+  },
+  "sensitive_data_locations": [
+    {
+      "browser": "chrome",
+      "file": "Login Data",
+      "path": "/home/choeng-rayu/.config/google-chrome/Default/Login Data",
+      "size": 122880,
+      "permissions": "600",
+      "description": "SQLite DB with encrypted passwords",
+      "exists": true
+    },
+    {
+      "browser": "chrome",
+      "file": "Cookies",
+      "path": "/home/choeng-rayu/.config/google-chrome/Default/Cookies",
+      "size": 1474560,
+      "permissions": "600",
+      "description": "Session tokens for websites",
+      "exists": true
+    },
+    {
+      "browser": "chrome",
+      "file": "History",
+      "path": "/home/choeng-rayu/.config/google-chrome/Default/History",
+      "size": 15400960,
+      "permissions": "600",
+      "description": "Browsing history (SQLite)",
+      "exists": true
+    },
+    {
+      "browser": "chrome",
+      "file": "Bookmarks",
+      "path": "/home/choeng-rayu/.config/google-chrome/Default/Bookmarks",
+      "size": 21822,
+      "permissions": "600",
+      "description": "User bookmarks",
+      "exists": true
+    },
+    {
+      "browser": "chrome",
+      "file": "Web Data",
+      "path": "/home/choeng-rayu/.config/google-chrome/Default/Web Data",
+      "size": 622592,
+      "permissions": "600",
+      "description": "Autofill data (addresses, credit cards)",
+      "exists": true
+    },
+    {
+      "browser": "chrome",
+      "file": "Preferences",
+      "path": "/home/choeng-rayu/.config/google-chrome/Default/Preferences",
+      "size": 250723,
+      "permissions": "600",
+      "description": "Settings and configurations",
+      "exists": true
+    }
+  ],
+  "vulnerabilities_found": [],
+  "summary": {
+    "total_browsers_detected": 3,
+    "total_sensitive_files": 6,
+    "total_vulnerabilities": 0,
+    "security_status": "secure"
+  },
+  "recommendations": [
+    "Update all browsers to latest version",
+    "Enable 2FA on critical accounts",
+    "Install password manager (Bitwarden, 1Password)",
+    "Review and remove unused browser extensions",
+    "Clear cookies and browsing data regularly",
+    "Enable disk encryption (LUKS/FileVault/BitLocker)",
+    "Set up firewall rules",
+    "Run browser in sandbox (Firejail, Flatpak)"
+  ]
+}

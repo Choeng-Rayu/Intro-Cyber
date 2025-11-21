@@ -1,0 +1,282 @@
+{
+  "collection_timestamp": "2025-11-21T08:38:15.320347",
+  "collection_type": "browser_sensitive_data",
+  "system_info": {
+    "home_directory": "/home/choeng-rayu",
+    "collection_date": "2025-11-21 08:38:15"
+  },
+  "summary": {
+    "total_files_found": 6,
+    "total_size_bytes": 17893758,
+    "browsers_with_data": [
+      "chrome"
+    ],
+    "file_types": {
+      "Login Data": 1,
+      "Cookies": 1,
+      "History": 1,
+      "Bookmarks": 1,
+      "Web Data": 1,
+      "Preferences": 1
+    }
+  },
+  "sensitive_data_locations": [
+    {
+      "browser": "chrome",
+      "filename": "Login Data",
+      "full_path": "/home/choeng-rayu/.config/google-chrome/Default/Login Data",
+      "description": "Encrypted passwords database",
+      "size_bytes": 122880,
+      "permissions": "600",
+      "last_modified": "2025-11-21T07:36:36.066825",
+      "exists": true,
+      "database_info": {
+        "type": "sqlite3",
+        "status": "locked_or_inaccessible"
+      }
+    },
+    {
+      "browser": "chrome",
+      "filename": "Cookies",
+      "full_path": "/home/choeng-rayu/.config/google-chrome/Default/Cookies",
+      "description": "Session tokens and authentication cookies",
+      "size_bytes": 1474560,
+      "permissions": "600",
+      "last_modified": "2025-11-21T08:37:42.881233",
+      "exists": true,
+      "database_info": {
+        "type": "sqlite3",
+        "tables": [
+          {
+            "name": "meta",
+            "row_count": 3
+          },
+          {
+            "name": "cookies",
+            "row_count": 3067
+          }
+        ]
+      }
+    },
+    {
+      "browser": "chrome",
+      "filename": "History",
+      "full_path": "/home/choeng-rayu/.config/google-chrome/Default/History",
+      "description": "Browsing history database",
+      "size_bytes": 15400960,
+      "permissions": "600",
+      "last_modified": "2025-11-21T08:28:19.728405",
+      "exists": true,
+      "database_info": {
+        "type": "sqlite3",
+        "status": "locked_or_inaccessible"
+      }
+    },
+    {
+      "browser": "chrome",
+      "filename": "Bookmarks",
+      "full_path": "/home/choeng-rayu/.config/google-chrome/Default/Bookmarks",
+      "description": "User bookmarks",
+      "size_bytes": 21822,
+      "permissions": "600",
+      "last_modified": "2025-11-20T13:29:49.154894",
+      "exists": true
+    },
+    {
+      "browser": "chrome",
+      "filename": "Web Data",
+      "full_path": "/home/choeng-rayu/.config/google-chrome/Default/Web Data",
+      "description": "Autofill data (addresses, credit cards)",
+      "size_bytes": 622592,
+      "permissions": "600",
+      "last_modified": "2025-11-21T08:04:17.709092",
+      "exists": true,
+      "database_info": {
+        "type": "sqlite3",
+        "tables": [
+          {
+            "name": "meta",
+            "row_count": 6
+          },
+          {
+            "name": "plus_addresses",
+            "row_count": 0
+          },
+          {
+            "name": "plus_address_sync_model_type_state",
+            "row_count": 0
+          },
+          {
+            "name": "plus_address_sync_entity_metadata",
+            "row_count": 0
+          },
+          {
+            "name": "token_service",
+            "row_count": 1
+          },
+          {
+            "name": "autofill",
+            "row_count": 701
+          },
+          {
+            "name": "addresses",
+            "row_count": 1
+          },
+          {
+            "name": "address_type_tokens",
+            "row_count": 37
+          },
+          {
+            "name": "autofill_ai_attributes",
+            "row_count": 0
+          },
+          {
+            "name": "autofill_ai_entities",
+            "row_count": 0
+          },
+          {
+            "name": "credit_cards",
+            "row_count": 0
+          },
+          {
+            "name": "local_ibans",
+            "row_count": 0
+          },
+          {
+            "name": "masked_credit_cards",
+            "row_count": 2
+          },
+          {
+            "name": "server_card_metadata",
+            "row_count": 2
+          },
+          {
+            "name": "payments_customer_data",
+            "row_count": 1
+          },
+          {
+            "name": "server_card_cloud_token_data",
+            "row_count": 0
+          },
+          {
+            "name": "offer_data",
+            "row_count": 0
+          },
+          {
+            "name": "offer_eligible_instrument",
+            "row_count": 0
+          },
+          {
+            "name": "offer_merchant_domain",
+            "row_count": 0
+          },
+          {
+            "name": "virtual_card_usage_data",
+            "row_count": 0
+          },
+          {
+            "name": "local_stored_cvc",
+            "row_count": 0
+          },
+          {
+            "name": "server_stored_cvc",
+            "row_count": 2
+          },
+          {
+            "name": "masked_bank_accounts",
+            "row_count": 0
+          },
+          {
+            "name": "masked_bank_accounts_metadata",
+            "row_count": 0
+          },
+          {
+            "name": "masked_ibans",
+            "row_count": 0
+          },
+          {
+            "name": "masked_ibans_metadata",
+            "row_count": 0
+          },
+          {
+            "name": "masked_credit_card_benefits",
+            "row_count": 0
+          },
+          {
+            "name": "benefit_merchant_domains",
+            "row_count": 0
+          },
+          {
+            "name": "generic_payment_instruments",
+            "row_count": 0
+          },
+          {
+            "name": "payment_instrument_creation_options",
+            "row_count": 0
+          },
+          {
+            "name": "keywords",
+            "row_count": 15
+          },
+          {
+            "name": "autofill_sync_metadata",
+            "row_count": 710
+          },
+          {
+            "name": "autofill_model_type_state",
+            "row_count": 9
+          },
+          {
+            "name": "payment_method_manifest",
+            "row_count": 0
+          },
+          {
+            "name": "secure_payment_confirmation_instrument",
+            "row_count": 0
+          },
+          {
+            "name": "secure_payment_confirmation_browser_bound_key",
+            "row_count": 0
+          },
+          {
+            "name": "web_app_manifest_section",
+            "row_count": 0
+          },
+          {
+            "name": "loyalty_cards",
+            "row_count": 0
+          },
+          {
+            "name": "loyalty_card_merchant_domain",
+            "row_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "browser": "chrome",
+      "filename": "Preferences",
+      "full_path": "/home/choeng-rayu/.config/google-chrome/Default/Preferences",
+      "description": "Browser settings and configurations",
+      "size_bytes": 250944,
+      "permissions": "600",
+      "last_modified": "2025-11-21T08:36:27.100286",
+      "exists": true
+    }
+  ],
+  "security_notes": [
+    "This data shows what attackers target in browser attacks",
+    "Passwords in Login Data are encrypted but can be decrypted by malware running as your user",
+    "Cookies contain session tokens that can hijack logged-in accounts",
+    "History reveals browsing patterns and visited sites",
+    "Web Data contains autofill information including addresses and payment methods"
+  ],
+  "defense_recommendations": [
+    "Keep browsers updated to prevent code execution exploits",
+    "Use dedicated password manager instead of browser storage",
+    "Enable 2FA on all accounts to mitigate credential theft",
+    "Use private browsing mode for sensitive activities",
+    "Clear cookies and cache regularly",
+    "Monitor file access to these locations for suspicious activity"
+  ]
+}
