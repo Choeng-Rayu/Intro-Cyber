@@ -153,9 +153,10 @@ class SystemInfoGatherer:
         except:
             self.info['system_info']['memory'] = 'Unknown'
 
-    def send_to_server(self, server_ip, server_port):
+    def send_to_server(self, server_ip, server_port, timeout=10):
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(timeout)
             sock.connect((server_ip, int(server_port)))
             
             data = json.dumps(self.info)
@@ -164,7 +165,17 @@ class SystemInfoGatherer:
             sock.send(data.encode())
             sock.close()
             return True
-        except:
+        except socket.timeout:
+            print(f"    [-] Connection timeout - server at {server_ip}:{server_port} not responding")
+            return False
+        except ConnectionRefusedError:
+            print(f"    [-] Connection refused - check if server is running on {server_ip}:{server_port}")
+            return False
+        except socket.gaierror:
+            print(f"    [-] Cannot resolve hostname: {server_ip}")
+            return False
+        except Exception as e:
+            print(f"    [-] Connection error: {e}")
             return False
 
     def save_to_file(self):
@@ -322,15 +333,40 @@ def main():
             gatherer = SystemInfoGatherer()
             gatherer.run()
             
-            server_ip = input("Enter server IP: ").strip()
+            print("\n" + "="*50)
+            print("SEND TO REMOTE SERVER")
+            print("="*50)
+            
+            # Get current network info
+            try:
+                result = subprocess.run(['hostname', '-I'], capture_output=True, text=True, timeout=2)
+                current_ips = result.stdout.strip()
+                print(f"Your current IP(s): {current_ips}")
+            except:
+                print("Your current IP: unknown")
+            
+            print("="*50)
+            server_ip = input("Enter server IP address (e.g., 10.23.154.232): ").strip()
             server_port = input("Enter server port (default 5555): ").strip() or '5555'
             
-            print(f"[*] Sending to {server_ip}:{server_port}...")
+            if not server_ip:
+                print("[-] No IP provided")
+                continue
+            
+            print(f"\n[*] Attempting to send to {server_ip}:{server_port}...")
+            print(f"    (This may take up to 10 seconds)\n")
+            
             if gatherer.send_to_server(server_ip, server_port):
-                print(f"[+] Data sent successfully")
+                print(f"[+] Data sent successfully!")
                 gatherer.save_to_file()
             else:
-                print(f"[-] Failed to send data")
+                print(f"\n[-] Failed to send data to {server_ip}:{server_port}")
+                print("\n[*] Troubleshooting:")
+                print("    1. Check if both computers are on the same network")
+                print("    2. Verify the server IP address is correct")
+                print("    3. Ensure the server is running and listening")
+                print("    4. Check firewall settings on both machines")
+                print("    5. Test with: ping {0}".format(server_ip))
         
         elif choice == '4':
             host = input("Enter listen address (default 0.0.0.0 for all): ").strip() or '0.0.0.0'
